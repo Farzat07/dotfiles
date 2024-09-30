@@ -37,6 +37,8 @@ fi
 
 # Some environment variable settings for some programs.
 
+export MAILDIR="$XDG_DATA_HOME/mail"
+export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 # Pipenv.
 export PIPENV_VENV_IN_PROJECT=1
 # Go.
