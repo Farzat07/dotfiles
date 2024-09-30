@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=mailtohandler
+Comment=Choose a handler for the provided email using dmenu
+Terminal=false
+MimeType=x-scheme-handler/mailto;
+Exec=mailtohandler %u
+Categories=Email;Network;

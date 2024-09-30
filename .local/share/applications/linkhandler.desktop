@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=linkhandler
+Comment=Choose a handler for the provided link using dmenu
+Terminal=false
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;application/x-xpinstall;application/json;
+Exec=linkhandler %u
+Categories=Network;WebBrowser;
