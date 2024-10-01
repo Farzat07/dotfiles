@@ -1,2 +1,3 @@
 #pattern  filter=crypt diff=crypt merge=crypt
 .abook/* filter=crypt diff=crypt merge=crypt
+.local/share/ssh_pub_keys/* filter=crypt diff=crypt merge=crypt
