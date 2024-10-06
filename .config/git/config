@@ -1,0 +1,22 @@
+[alias]
+	graph = log --oneline --decorate --graph --all
+[merge]
+	tool = vimdiff
+[user]
+	email = a@farzat.xyz
+	name = A Farzat
+[core]
+	bare = false
+[mergetool "vimdiff"]
+	path = nvim
+[init]
+	defaultBranch = master
+[fetch]
+	prune = true
+[sendemail]
+	smtpserver = mail.farzat.xyz
+	smtpuser = a@farzat.xyz
+	smtpencryption = tls
+	smtpserverport = 587
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret
