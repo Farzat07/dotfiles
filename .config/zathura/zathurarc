@@ -1,0 +1,4 @@
+set window-title-basename
+set window-title-page
+
+include wal
