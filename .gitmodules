@@ -4,3 +4,6 @@
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = https://cgit.farzat.xyz/dotfiles/nvim
+[submodule ".config/mpv/scripts/mpv-reload"]
+	path = .config/mpv/script-repos/mpv-reload
+	url = https://github.com/4e6/mpv-reload.git
