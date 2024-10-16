@@ -5,9 +5,7 @@ local input = require "user-input-module"
 local utils = require 'mp.utils'
 
 local sock_dir = os.getenv("MPV_SOCKET_DIR") or
-  utils.join_path(os.getenv("XDG_CACHE_HOME") or
-  utils.join_path(os.getenv("HOME"), ".cache"),
-  "mpv_sockets")
+  utils.join_path(os.getenv("XDG_RUNTIME_DIR"), "mpv/sockets")
 mp.command_native({capture_stdout = true, capture_stderr = true,
 args = {"mkdir", "-p", sock_dir}, name = "subprocess", playback_only = false})
 
