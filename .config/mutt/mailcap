@@ -1,0 +1,9 @@
+text/html; openfile %s ; nametemplate=%s.html
+text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -dump -width=1024 %s; nametemplate=%s.html; copiousoutput;
+image/*; linkhandler %s ;
+video/*; linkhandler %s ;
+audio/*; linkhandler %s ;
+application/pdf; openfile %s ;
+application/pgp-encrypted; gpg -d '%s'; copiousoutput;
+application/pgp-keys; gpg --import '%s'; copiousoutput;
+application/x-pkcs7-signature; /usr/lib/neomutt/smime_keys add_cert %s;

@@ -1,0 +1,8 @@
+# vim: filetype=neomuttrc
+source "$XDG_CONFIG_HOME/mutt/mutt-wizard.muttrc"
+source "$XDG_CONFIG_HOME/mutt/custom.muttrc"
+source "$XDG_CONFIG_HOME/mutt/accounts/a@farzat.xyz.muttrc"
+macro index,pager i1 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/a@farzat.xyz.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to a@farzat.xyz"
+macro index,pager i2 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/farzat@posteo.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to farzat@posteo.com"
+macro index,pager i3 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/Farzat.uni@outlook.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to Farzat.uni@outlook.com"
+macro index,pager i4 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/Farzat@outlook.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to Farzat@outlook.com"

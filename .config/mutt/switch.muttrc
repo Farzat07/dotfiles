@@ -1,0 +1,18 @@
+# vim: filetype=neomuttrc
+
+# This is an embarrassing and hacky file that unbinds a bunch of binds between
+# switching accounts. It is called each time an account is changed.
+
+unmy_hdr Organization
+unmailboxes *
+unalternates *
+unset signature
+
+unset crypt_use_gpgme
+unset postpone_encrypt
+unset pgp_self_encrypt
+unset crypt_use_pka
+unset crypt_autosign
+unset crypt_autoencrypt
+unset crypt_autopgp
+unset pgp_sign_as

@@ -1,0 +1,38 @@
+# vim: filetype=neomuttrc
+# muttrc file for account Farzat@outlook.com
+set realname = "Farzat"
+set from = "Farzat@outlook.com"
+set sendmail = "msmtp -a Farzat@outlook.com"
+alias me Farzat <Farzat@outlook.com>
+set folder = "$MAILDIR/Farzat@outlook.com/"
+set header_cache = "$XDG_CACHE_HOME/mutt/Farzat@outlook.com/headers"
+set message_cachedir = "$XDG_CACHE_HOME/mutt/Farzat@outlook.com/bodies"
+set mbox_type = Maildir
+source "$XDG_CONFIG_HOME/mutt/switch.muttrc"
+set spoolfile = +INBOX
+set postponed = +Drafts
+set trash = +Deleted
+set record = +Sent
+
+macro index o "<shell-escape>tmux split-window -dl 25% 'mailsync Farzat@outlook.com'<enter>" "run mbsync to sync Farzat@outlook.com"
+
+mailboxes `mdir="$MAILDIR/Farzat@outlook.com/"; find "$mdir" -mindepth 1 -type d -name cur | sed -e 's:/cur$:":' -e "s:$mdir:\"=:" | sort | tr '\n' ' '`
+
+macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
+macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
+macro index,pager Ci ";<copy-message>=INBOX<enter>" "copy mail to inbox"
+macro index,pager gd "<change-folder>=Drafts<enter>" "go to drafts"
+macro index,pager Md ";<save-message>=Drafts<enter>" "move mail to drafts"
+macro index,pager Cd ";<copy-message>=Drafts<enter>" "copy mail to drafts"
+macro index,pager gj "<change-folder>=Junk<enter>" "go to junk"
+macro index,pager Mj ";<save-message>=Junk<enter>" "move mail to junk"
+macro index,pager Cj ";<copy-message>=Junk<enter>" "copy mail to junk"
+macro index,pager gt "<change-folder>=Deleted<enter>" "go to trash"
+macro index,pager Mt ";<save-message>=Deleted<enter>" "move mail to trash"
+macro index,pager Ct ";<copy-message>=Deleted<enter>" "copy mail to trash"
+macro index,pager gs "<change-folder>=Sent<enter>" "go to sent"
+macro index,pager Ms ";<save-message>=Sent<enter>" "move mail to sent"
+macro index,pager Cs ";<copy-message>=Sent<enter>" "copy mail to sent"
+macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
+macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
+macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"

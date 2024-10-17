@@ -1,0 +1,31 @@
+# vim: filetype=neomuttrc
+
+alternative_order text/plain text/enriched text/html
+auto_view text/html		# automatically show html (mailcap uses lynx)
+auto_view application/pgp-encrypted
+
+bind pager gg top
+bind pager G bottom
+bind index,pager,browser \cd half-down
+bind index,pager,browser \cu half-up
+
+set date_format="%y/%m/%d %H:%M %Z"
+set fast_reply				# skip to compose when replying
+set forward_format = "Fwd: %s"
+set forward_quote
+set include					# include message in replies
+set mailcap_path = "$XDG_CONFIG_HOME/mutt/mailcap:$mailcap_path"
+set markers = no			# Disables the `+` displayed at line wraps.
+set mark_old = no			# Unread mail stay unread until read
+set mime_forward = ask-yes	# Forwarded body added as attachment if yes.
+set mime_type_query_command = "file --mime-type -b %s"
+set pipe_decode = yes		# Makes sure pipe-message pipes the message unencrypted.
+set query_command = "abook --mutt-query '%s'"
+set reverse_name			# reply as whomever it was to
+set send_charset="utf-8"
+set sleep_time = 0			# Pause 0 seconds for informational messages.
+set use_threads = 'reverse'
+set wait_key = no			# mutt won't ask "press key to continue"
+
+macro index O "<shell-escape>tmux split-window -dl 25% mailsync<enter>" "run mbsync to sync all mail"
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "Follow links with urlscan"
