@@ -1,0 +1,15 @@
+[Unit]
+Description=Change the wallpaper periodically
+
+[Service]
+Environment=DISPLAY=:0
+
+ExecStart=/usr/bin/sh -lc wallpaper-continuous.sh
+
+Restart=always
+# Restart service after 10 seconds if service crashes
+RestartSec=10
+SyslogIdentifier=wallpaper-continuous
+
+[Install]
+WantedBy=basic.target

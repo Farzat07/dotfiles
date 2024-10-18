@@ -1,0 +1,7 @@
+[Unit]
+Description=Play a 10 Hz sound for 5 seconds
+Wants=sound.target
+After=sound.target
+
+[Service]
+ExecStart=/home/farzat/bin/speakersawake.sh

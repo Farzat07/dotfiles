@@ -1,0 +1,16 @@
+[Unit]
+Description=Playerctl control media players via MPRIS
+Documentation=https://github.com/altdesktop/playerctl
+
+[Service]
+Environment=DISPLAY=:0
+
+ExecStart=/usr/bin/playerctld
+
+Restart=always
+# Restart service after 10 seconds if service crashes
+RestartSec=10
+SyslogIdentifier=playerctld
+
+[Install]
+WantedBy=basic.target

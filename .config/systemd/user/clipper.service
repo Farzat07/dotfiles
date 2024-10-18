@@ -1,0 +1,16 @@
+[Unit]
+Description=Clipper clipboard access for local and remote tmux sessions
+Documentation=https://github.com/wincent/clipper
+
+[Service]
+Environment=DISPLAY=:0
+
+ExecStart=/usr/bin/clipper
+
+Restart=always
+# Restart service after 10 seconds if service crashes
+RestartSec=10
+SyslogIdentifier=clipper
+
+[Install]
+WantedBy=basic.target

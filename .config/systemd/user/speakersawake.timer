@@ -1,0 +1,9 @@
+[Unit]
+Description=Run speakerawake every 5 minutes
+
+[Timer]
+OnStartupSec=20
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
