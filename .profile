@@ -39,6 +39,8 @@ fi
 
 export MAILDIR="$XDG_DATA_HOME/mail"
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
+# Ledger
+export LEDGER_FILE="$XDG_DATA_HOME/ledger/main.ledger"
 # Pipenv.
 export PIPENV_VENV_IN_PROJECT=1
 # Go.
