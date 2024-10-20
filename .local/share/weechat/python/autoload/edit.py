@@ -1,0 +1,1 @@
+/usr/share/weechat/python/edit.py
