@@ -1,0 +1,47 @@
+From 5ab647163705bb947a895fed5ae2a2658b18a180 Mon Sep 17 00:00:00 2001
+From: A Farzat <a@farzat.xyz>
+Date: Sun, 24 Apr 2022 13:21:23 +0900
+Subject: [PATCH 3/5] Apply mediakeys patch
+
+A combination of two diff files:
+https://patch-diff.githubusercontent.com/raw/phenax/bslock/pull/1.diff
+slock-mediakeys-20170111-2d2a21a.diff
+---
+ slock.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/slock.c b/slock.c
+index a385a82..cbbbd29 100644
+--- a/slock.c
++++ b/slock.c
+@@ -22,6 +22,7 @@
+ #include <X11/keysym.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
++#include <X11/XF86keysym.h>
+ #include <X11/XKBlib.h>
+ #include <X11/Xft/Xft.h>
+ #include <Imlib2.h>
+@@ -203,6 +204,19 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
+ 			    IsPrivateKeypadKey(ksym))
+ 				continue;
+ 			switch (ksym) {
++			case XF86XK_AudioPlay:
++			case XF86XK_AudioPause:
++			case XF86XK_AudioStop:
++			case XF86XK_AudioPrev:
++			case XF86XK_AudioNext:
++			case XF86XK_AudioRaiseVolume:
++			case XF86XK_AudioLowerVolume:
++			case XF86XK_AudioMute:
++			case XF86XK_AudioMicMute:
++			case XF86XK_MonBrightnessDown:
++			case XF86XK_MonBrightnessUp:
++				XSendEvent(dpy, DefaultRootWindow(dpy), True, KeyPressMask, &ev);
++				break;
+ 			case XK_Return:
+ 				passwd[len] = '\0';
+ 				errno = 0;
+-- 
+2.43.0
+

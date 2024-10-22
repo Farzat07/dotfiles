@@ -1,0 +1,48 @@
+From 0d60f58ae941c8627ee612e8ac5bbfe2e8adda74 Mon Sep 17 00:00:00 2001
+From: A Farzat <a@farzat.xyz>
+Date: Wed, 10 Jan 2024 12:41:27 +0900
+Subject: [PATCH 5/5] Apply alternate-colors patch modified
+
+From slock-alternate-colors-20220921-35633d4
+---
+ config.def.h | 1 +
+ slock.c      | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/config.def.h b/config.def.h
+index 98668ac..797fd6b 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,6 +5,7 @@ static const char *group = "nogroup";
+ static const char *colorname[NUMCOLS] = {
+ 	[INIT] =   "black",     /* after initialization */
+ 	[INPUT] =  "#005577",   /* during input */
++	[INPUT_ALT] = "#227799", /* during input, second color */
+ 	[FAILED] = "#CC3333",   /* wrong password */
+ 	[CAPS] =   "#33CCCC",   /* CapsLock on */
+ };
+diff --git a/slock.c b/slock.c
+index 63c946c..944ee55 100644
+--- a/slock.c
++++ b/slock.c
+@@ -35,6 +35,7 @@ char *argv0;
+ enum {
+ 	INIT,
+ 	INPUT,
++	INPUT_ALT,
+ 	FAILED,
+ 	CAPS,
+ 	NUMCOLS
+@@ -250,7 +251,8 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
+ 				}
+ 				break;
+ 			}
+-			color = len ? (caps ? CAPS : INPUT) : ((failure || failonclear) ? FAILED : INIT);
++			color = len ? (caps ? CAPS : (len%2 ? INPUT : INPUT_ALT))
++			            : ((failure || failonclear) ? FAILED : INIT);
+ 			if (running && oldc != color) {
+ 				for (screen = 0; screen < nscreens; screen++) {
+ 					drawlogo(dpy, locks[screen], color);
+-- 
+2.43.0
+
