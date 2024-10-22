@@ -1,0 +1,11 @@
+--- a/tabbed.1	2022-01-28 05:40:59.747307437 +0900
++++ b/tabbed.1	2022-01-28 05:40:59.747307437 +0900
+@@ -138,7 +138,7 @@
+ .B Ctrl\-q
+ close tab
+ .TP
+-.B Ctrl\-u
++.B Ctrl\-Shift\-f
+ focus next urgent tab
+ .TP
+ .B Ctrl\-[0..9]
