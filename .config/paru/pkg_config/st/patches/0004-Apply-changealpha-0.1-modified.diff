@@ -1,0 +1,75 @@
+From ce788c4b745653bb3d74eb8dc3ec1312bb97ee57 Mon Sep 17 00:00:00 2001
+From: A Farzat <a@farzat.xyz>
+Date: Sun, 31 Dec 2023 09:56:43 +0900
+Subject: [PATCH 4/4] Apply changealpha-0.1 modified
+
+---
+ config.def.h |  2 ++
+ st.1         |  6 ++++++
+ x.c          | 13 +++++++++++++
+ 3 files changed, 21 insertions(+)
+
+diff --git a/config.def.h b/config.def.h
+index 4a60638..b76cb0e 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -202,6 +202,8 @@ static Shortcut shortcuts[] = {
+ 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
+ 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
+ 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
++	{ TERMMOD,              XK_F11,         changealpha,    {.f = -0.05} },
++	{ TERMMOD,              XK_F12,         changealpha,    {.f = +0.05} },
+ 	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+ 	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+ 	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+diff --git a/st.1 b/st.1
+index 39120b4..ef18153 100644
+--- a/st.1
++++ b/st.1
+@@ -151,6 +151,12 @@ Decrease font size.
+ .B Ctrl-Shift-Home
+ Reset to default font size.
+ .TP
++.B Ctrl-Shift-F11
++Decrease the opacity by 0.05.
++.TP
++.B Ctrl-Shift-F12
++Increase the opacity by 0.05.
++.TP
+ .B Ctrl-Shift-y
+ Paste from primary selection (middle mouse button).
+ .TP
+diff --git a/x.c b/x.c
+index 9a76f95..9e75b23 100644
+--- a/x.c
++++ b/x.c
+@@ -55,6 +55,7 @@ static void clipcopy(const Arg *);
+ static void clippaste(const Arg *);
+ static void numlock(const Arg *);
+ static void selpaste(const Arg *);
++static void changealpha(const Arg *);
+ static void zoom(const Arg *);
+ static void zoomabs(const Arg *);
+ static void zoomreset(const Arg *);
+@@ -295,6 +296,18 @@ numlock(const Arg *dummy)
+ 	win.mode ^= MODE_NUMLOCK;
+ }
+ 
++void
++changealpha(const Arg *arg)
++{
++	alpha += arg->f;
++	LIMIT(alpha, 0, 1);
++
++	dc.col[defaultbg].color.alpha = (unsigned short)(0xffff * alpha);
++	/* Required to remove artifacting from borderpx */
++	cresize(0, 0);
++	redraw();
++}
++
+ void
+ zoom(const Arg *arg)
+ {
+-- 
+2.46.0
+
