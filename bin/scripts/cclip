@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# Copy text from the standard input to the clipboard.
+# If connected from an ssh session, use clipper to send back to local computer.
+# Otherwise just use xclip.
+
+# The code block checks whether it is an ssh session or not.
+# If so, SESSION_TYPE is set to remote/ssh.
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    SESSION_TYPE=remote/ssh
+else
+    case $(ps -o comm= -p "$PPID") in
+        sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+    esac
+fi
+
+if [ "$SESSION_TYPE" = "remote/ssh" ]; then
+    nc -q 0 -U ~/.clipper.sock
+else
+    xclip -sel clip
+fi

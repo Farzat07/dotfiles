@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# Store the provided links in linkhandler's store_file.
+# The stored links will be prefixed next time linkhandler is run.
+
+cache_dir="${XDG_CACHE_DIR:-$HOME/.cache}/linkhandler"
+store_file="$cache_dir/store"
+[ -d "$cache_dir" ] || mkdir -p "$cache_dir"
+for url in "$@";
+do printf "%s\0" "$url"
+done >> "$store_file"

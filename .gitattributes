@@ -5,3 +5,4 @@
 .config/weechat/sec.conf filter=crypt diff=crypt merge=crypt
 .config/isyncrc##t filter=crypt diff=crypt merge=crypt
 .config/msmtp/config filter=crypt diff=crypt merge=crypt
+bin/scripts/getpass filter=crypt diff=crypt merge=crypt
