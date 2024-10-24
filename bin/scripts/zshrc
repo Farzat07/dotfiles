@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# Loads zshrc before running whatever commands were supplied to it.
+
+. "$ZDOTDIR/.zshrc"
+exec "$@"

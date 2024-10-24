@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# Open links using mpv in a new tmux window.
+# Make sure the urls are printed as they are added.
+
+tmux neww -t mpv: mpv --volume=50 --script-opts=print_filenames=yes "$@"
