@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# export NNN_FIFO="${NNN_FIFO:-$XDG_CACHE_HOME/nnn/nnn.fifo}"
+export NNN_PLUG="${NNN_PLUG:-c:fzcd;p:preview-tui;}"
+exec nnn "$@"
