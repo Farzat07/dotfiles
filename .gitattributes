@@ -6,4 +6,5 @@
 .config/isyncrc##t filter=crypt diff=crypt merge=crypt
 .config/msmtp/config filter=crypt diff=crypt merge=crypt
 bin/scripts/getpass filter=crypt diff=crypt merge=crypt
+bin/dmenu/type_pass filter=crypt diff=crypt merge=crypt
 bin/external/ff2mpv.py filter=crypt diff=crypt merge=crypt
