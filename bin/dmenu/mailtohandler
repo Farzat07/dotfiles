@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/mailtohandler"
+store_file="$cache_dir/store"
+[ -d "$cache_dir" ] || mkdir -p "$cache_dir"
+if [ -f "$store_file" ]; then
+	mapfile -d '' store_urls < "$store_file"
+	urls=( "${store_urls[@]}" "$@" )
+else
+	urls=( "$@" )
+fi
+
+command="$(dmenu -p "${#urls[@]} emails $(printf "%.50s" "${1#mailto:}")..." <<OPTIONS
+neomutt
+clipsep
+clipmline
+abook_add
+store
+store_clear
+OPTIONS
+)"
+
+case "$command" in
+	neomutt)
+		tmux neww -t social: neomutt -- "${urls[@]}"
+		;;
+	clipmline)
+		for link in "${urls[@]}"
+		do printf "%s\n" "${link#mailto:}"
+		done | xclip -sel clip
+		;;
+	clipsep)
+		for link in "${urls[@]}"; do
+			printf "%s" "${link#mailto:}" | xclip -sel clip
+			sleep 0.1
+		done
+		;;
+	abook_add)
+		abook_file="$HOME/.abook/addressbook"
+		abook_index="$(grep -E '^\[[0-9]+\]$' "$abook_file" | tail -n 1)"
+		abook_index="${abook_index#[}"
+		abook_index="${abook_index%]}"
+		for link in "${urls[@]}"
+		do
+			abook_index=$((abook_index+1))
+			abook_name="$(dmenu -p "Name for ${link#mailto:}:" < /dev/null)"
+			[ -n "$abook_name" ] && cat >> "$abook_file" <<ENTRY
+[$abook_index]
+name=$abook_name
+email=${link#mailto:}
+
+ENTRY
+		done
+		;;
+	store)
+		for link in "${urls[@]}"
+		do printf "%s\0" "$link"
+		done > "$store_file"
+		exit
+		;;
+	store_clear)
+		;;
+	*)
+		exit
+esac
+
+[ -f "$store_file" ] && rm "$store_file"
+exit 0

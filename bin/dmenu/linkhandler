@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/linkhandler"
+store_file="$cache_dir/store"
+[ -d "$cache_dir" ] || mkdir -p "$cache_dir"
+if [ -f "$store_file" ]; then
+	mapfile -d '' store_urls < "$store_file"
+	urls=( "${store_urls[@]}" "$@" )
+else
+	urls=( "$@" )
+fi
+
+command="$(dmenu -p "${#urls[@]} $(printf "%.50s" "${1#*://}")..." <<OPTIONS
+qutebrowser
+librewolf
+librewolfwindow
+tmux_mpv
+tmux_mpv2
+tmux_umpv
+clipsep
+clipmline
+chromium
+zathura_attach
+zathura_tabbed
+feh
+share_trusted
+store
+store_clear
+OPTIONS
+)"
+
+download_tmp() {
+	tmp_dir="$(mktemp --directory --suffix=".linkhandler")"
+	for link in "${urls[@]}"
+	do
+		wget --directory-prefix="$tmp_dir" "$link" &
+	done
+	wait
+}
+
+case "$command" in
+	qutebrowser)
+		tmux neww -t linkhandler: qutebrowser-profile "${urls[@]}"
+		;;
+	librewolf)
+		tmux neww -t linkhandler: librewolf "${urls[@]}"
+		;;
+	librewolfwindow)
+		tmux neww -t linkhandler: librewolf --new-window "${urls[@]}"
+		;;
+	tmux_mpv)
+		tmux neww -t mpv: mpv --volume=50 --script-opts=print_filenames=yes "${urls[@]}"
+		;;
+	tmux_mpv2)
+		tmux splitw -v -t mpv: mpv --volume=50 --script-opts=print_filenames=yes "${urls[@]}"
+		;;
+	tmux_umpv)
+		tmux_umpv "${urls[@]}"
+		;;
+	clipmline)
+		for link in "${urls[@]}"
+		do printf "%s\n" "$link"
+		done | xclip -sel clip
+		;;
+	clipsep)
+		for link in "${urls[@]}"
+		do
+			printf "%s" "$link" | xclip -sel clip
+			sleep 0.1
+		done
+		;;
+	chromium)
+		tmux neww -t linkhandler: chromium --incognito "${urls[@]}"
+		;;
+	zathura_attach)
+		download_tmp "${urls[@]}"
+		tmux neww -t linkhandler: "zathura_attach '$tmp_dir'/*; rm -r '$tmp_dir'"
+		;;
+	zathura_tabbed)
+		download_tmp "${urls[@]}"
+		tmux neww -t linkhandler: "zathura_tabbed '$tmp_dir'/*; rm -r '$tmp_dir'"
+		;;
+	feh)
+		tmux neww -t linkhandler: feh "${urls[@]}"
+		;;
+	share_trusted)
+		for link in "${urls[@]}"
+		do printf "\n[%s](%s)\n" "$link" "$link"
+		done >> "$HOME/Syncthing/Markor/laptop_share.md"
+		;;
+	store)
+		for link in "${urls[@]}"
+		do printf "%s\0" "$link"
+		done > "$store_file"
+		exit
+		;;
+	store_clear)
+		;;
+	*)
+		exit
+esac
+
+[ -f "$store_file" ] && rm "$store_file"
