@@ -1,0 +1,45 @@
+#!/usr/bin/env sh
+
+# - Syncs mail for all accounts, or a single account given as an argument.
+# - Displays a notification showing the number of new mails.
+# - Displays a notification for each new mail with its subject displayed.
+# - Runs notmuch to index new mail.
+
+MAILDIR="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
+MBSYNCRC="${MBSYNCRC:-${XDG_CONFIG_HOME:-$HOME/.config}/isyncrc}"
+MS_last_run="${XDG_STATE_HOME:-$HOME/.local/state}/.mailsynclastrun"
+
+# Run only if not already running in other instance
+pgrep mbsync >/dev/null && { echo "mbsync is already running." >&2; exit ;}
+
+# Check account for new mail. Notify if there is new content.
+syncandnotify() {
+    acc="$(printf %s "$account" | sed "s/.*\///")"
+    if [ -z "$opts" ]; then mbsync -c "$MBSYNCRC" "$acc"; else mbsync -c "$MBSYNCRC" "$opts" "$acc"; fi
+    newcount=$(find "$MAILDIR/$acc/"[Ii][Nn][Bb][Oo][Xx]/new/ -type f -newer "$MS_last_run" 2> /dev/null | sed '/^\s*$/d' | wc -l)
+    notify-send --app-name="mailsync" "Mailsync" "📬 $newcount new mail(s) in \`$acc\` account."
+}
+
+# Sync accounts passed as argument or all.
+if [ "$#" -eq "0" ]; then
+    accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
+else
+    for arg in "$@"; do
+        [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
+    done
+    accounts=$*
+fi
+
+# Parallelize multiple accounts
+for account in $accounts; do
+    syncandnotify &
+done
+
+wait
+
+notmuch new 2>/dev/null
+
+#Create a touch file that indicates the time of the last run of mailsync
+touch "$MS_last_run"
+# Update the corresponding block in the statusbar.
+pkill -RTMIN+12 "${STATUSBAR:-dwmblocks}"
