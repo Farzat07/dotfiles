@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+# A script to open a terminal emulator with a tmux session attached.
+# The session name can be supplied, otherwise it is chosen using dmenu.
+# If the chosen option is listed as a session, that session is attached.
+# If the chosen option is not listed, a new session with that name is created.
+
+# The default terminal is st.
+TERMINAL="${TERMINAL:-st}"
+
+if [ -n "$1" ]; then
+	chosen="$1"
+else
+	chosen="$(tmux list-sessions -F \#\{session_name\} | dmenu -p "Choose which tmux session to use")"
+fi
+
+[ -z "$chosen" ] && exit
+
+if tmux has-session -t "$chosen"; then
+	exec $TERMINAL -T "tmux: $chosen" zshrc tmux attach -t "$chosen"
+else
+	exec $TERMINAL -T "tmux: $chosen" zshrc tmux new -s "$chosen"
+fi

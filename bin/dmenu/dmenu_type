@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+[ -d "$XDG_CACHE_HOME/dmenu_type" ] || mkdir -p "$XDG_CACHE_HOME/dmenu_type"
+[ -f "$XDG_CACHE_HOME/dmenu_type/output" ] || echo xdot > "$XDG_CACHE_HOME/dmenu_type/output"
+[ -f "$XDG_CACHE_HOME/dmenu_type/lang" ] || echo jap_full > "$XDG_CACHE_HOME/dmenu_type/lang"
+
+output="$(cat "$XDG_CACHE_HOME/dmenu_type/output")"
+lang="$(cat "$XDG_CACHE_HOME/dmenu_type/lang")"
+LINES=15
+
+while getopts b:o:l: OPTION
+do
+    case $OPTION in
+        b)
+            buffer="$OPTARG"
+            ;;
+        o)
+            output="$OPTARG"
+            ;;
+        l)
+            lang="$OPTARG"
+            ;;
+        *)
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+[ "$1" = "set" ] && case "$(printf "lang\nout" | dmenu -p "Choose setting to set:")" in
+    lang)
+        lang="$(printf "emoji\narabic\njap_full\n" | dmenu -p "Set language:")"
+        [ -n "$lang" ] && printf "%s\n" "$lang" > "$XDG_CACHE_HOME/dmenu_type/lang"
+        exit
+        ;;
+    out)
+        output="$(printf "xdot\nclip\nxdotbuff\n" | dmenu -p "Set dmenu_type output:")"
+        [ -n "$output" ] && printf "%s\n" "$output" > "$XDG_CACHE_HOME/dmenu_type/output"
+        exit
+        ;;
+    *)
+        exit 1
+esac
+
+DIC_DIR="$HOME/bin/experimentation/generated/dic_dir"
+
+case "$lang" in
+    jap_full)
+        rows="$(awk '!a[$0]++' "$DIC_DIR"/{hiragana,katakana,kanji,jp_special,double_eng})"
+        get_text () {
+            printf "%s" "$rows" | dmenu -p "$buffer" -l $LINES | cut -f2- -d ' '
+        }
+        ;;
+    emoji)
+        get_text () {
+            awk -F '# ' '/^[^#].*; fully-qualified *#/ {print $2}' "$DIC_DIR/emoji-test.txt" | dmenu -l $LINES | awk '{print $1}'
+        }
+        ;;
+    *)
+        exit
+        ;;
+esac
+
+while text="$(get_text)"; [ -n "$text" ]
+do
+    [ "$output" = "xdot" ] && xdotool type "$text"
+    [ "$output" = "clip" ] || [ "$output" = "xdotbuff" ] && buffer="$buffer$text"
+done
+[ "$output" = "xdotbuff" ] && xdotool type --delay 200 "$buffer"
+[ "$output" = "clip" ] && printf %s "$buffer" | xclip -sel clip

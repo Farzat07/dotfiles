@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# Open links using mpv in a new tmux window while setting the socket name to selection.
+# If the chosen socket is already active, load the urls to the mpv instance instead.
+# Make sure the urls are printed as they are added.
+
+sock_dir="${MPV_SOCKET_DIR:-$XDG_RUNTIME_DIR/mpv/sockets}"
+[ -d "$sock_dir" ] || mkdir -p "$sock_dir"
+sock="$(find "$sock_dir" -maxdepth 1 -mindepth 1 -type s -printf "%f\n" | dmenu -p "Choose mpv instance:")"
+[ -z "$sock" ] && exit 1
+
+if printf '{ "command": ["get_property", "path"] }\n' | nc -NU "$sock_dir/$sock" >/dev/null 2>&1; then
+  for link in "$@"; do
+    [ -e "$link" ] && link="$(realpath -s "$link")"
+    jq -cn --arg l "$link" '{"command":["loadfile",($l),"append"]},{"command":["print-text","LOADFILE:= "+($l)]}'
+  done | nc -NU "$sock_dir/$sock" >/dev/null
+else
+  tmux neww -t mpv: mpv --volume=50 --script-opts=mpv_socket="$sock",print_filenames=yes "$@"
+fi

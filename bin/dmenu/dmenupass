@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Get a password using dmenu.
+
+dmenu -P -p "$1"
