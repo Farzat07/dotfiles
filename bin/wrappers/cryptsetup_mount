@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# Mounts encrypted volume into dm-crypt
+# First argument is the device name - /dev/*
+# Second argument is the directory name desired
+
+cryptsetup open "$1" "$2" && mount --mkdir "/dev/mapper/$2" "/mnt/dm-crypt/$2"

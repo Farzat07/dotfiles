@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# relaunch DWM if the binary changes, otherwise bail
+csum=""
+new_csum="$(sha1sum "$(which dwm)")"
+while true
+do
+    if [ "$csum" != "$new_csum" ]
+    then
+        csum=$new_csum
+        dwm
+    else
+        exit
+    fi
+    new_csum="$(sha1sum "$(which dwm)")"
+    sleep 5
+done

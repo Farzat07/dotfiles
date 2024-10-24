@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Unmount the encrypted volume mounted at the given directory name
+
+umount "/mnt/dm-crypt/$1" && rmdir "/mnt/dm-crypt/$1" && cryptsetup close "$1"
