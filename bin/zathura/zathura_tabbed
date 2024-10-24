@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Make a new tabbed instance and attach zathura to it.
+xid="$(setsid -f tabbed -scd zathura -e)"
+exec zathura -e "$xid" "$@"

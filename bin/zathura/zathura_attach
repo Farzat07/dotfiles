@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+# Attach zathura to a running tabbed instance.
+
+# Keep in mind that one could also reattach windows through
+# xdotool windowreparent <source_id> <destination_id>
+# The source_id and destination_id can be obtained using
+# xwininfo -tree and looking at "Window id:"
+
+xids="$(xdotool search --class tabbed)"
+
+# If none are running, execute zathura_tabbed instead.
+[ -z "$xids" ] && exec zathura_tabbed "$@"
+
+# If only one is running, just attach to that.
+# Otherwise, filter to only one.
+if [ "$(printf "%s\n" "$xids" | wc -l)" -gt 1 ]
+then
+    xid="$(printf "%s" "$xids" | dmenu -p "Choose tabbed window to attach to:")"
+    [ -z "$xid" ] && { echo "No instance was chosen."; exit 1; } || xids="$xid"
+fi
+
+exec zathura -e "$xids" "$@"
