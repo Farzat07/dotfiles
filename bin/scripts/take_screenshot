@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# Grab a screenshot and save it in $XDG_DATA_HOME/screenshots
+
+screenshot_dir="${XDG_DATA_HOME:-$HOME/.local/share}/screenshots"
+[ -d "$screenshot_dir" ] || mkdir -p "$screenshot_dir"
+
+sleep 0.5 # Allow some time for dmenu or whatever to go away.
+
+filename="$(date -Iseconds -u)"
+filename="${filename%+00:00}.png"
+ffmpeg -f x11grab -i "$DISPLAY" -vframes 1 "$screenshot_dir/$filename"
