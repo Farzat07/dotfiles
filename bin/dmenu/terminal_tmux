@@ -14,10 +14,4 @@ else
 	chosen="$(tmux list-sessions -F \#\{session_name\} | dmenu -p "Choose which tmux session to use")"
 fi
 
-[ -z "$chosen" ] && exit
-
-if tmux has-session -t "$chosen"; then
-	exec $TERMINAL -T "tmux: $chosen" zshrc tmux attach -t "$chosen"
-else
-	exec $TERMINAL -T "tmux: $chosen" zshrc tmux new -s "$chosen"
-fi
+[ -z "$chosen" ] || exec $TERMINAL -T "tmux: $chosen" zshrc tmux new -A -s "$chosen"
