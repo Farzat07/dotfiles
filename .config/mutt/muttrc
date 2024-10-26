@@ -6,3 +6,4 @@ macro index,pager i1 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt
 macro index,pager i2 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/farzat@posteo.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to farzat@posteo.com"
 macro index,pager i3 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/Farzat.uni@outlook.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to Farzat.uni@outlook.com"
 macro index,pager i4 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/Farzat@outlook.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to Farzat@outlook.com"
+macro index,pager i5 '<sync-mailbox><enter-command>source "$XDG_CONFIG_HOME/mutt/accounts/ai.farzat@gmail.com.muttrc"<enter><change-folder>!<enter>;<check-stats>' "switch to ai.farzat@gmail.com"

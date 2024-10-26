@@ -1,0 +1,38 @@
+# vim: filetype=neomuttrc
+# muttrc file for account ai.farzat@gmail.com
+set realname = "Farzat"
+set from = "ai.farzat@gmail.com"
+set sendmail = "msmtp -a ai.farzat@gmail.com"
+alias me Farzat <ai.farzat@gmail.com>
+set folder = "$MAILDIR/ai.farzat@gmail.com/"
+set header_cache = "$XDG_CACHE_HOME/mutt/ai.farzat@gmail.com/headers"
+set message_cachedir = "$XDG_CACHE_HOME/mutt/ai.farzat@gmail.com/bodies"
+set mbox_type = Maildir
+source "$XDG_CONFIG_HOME/mutt/switch.muttrc"
+set spoolfile = +INBOX
+set postponed = +[Gmail]/Drafts
+set trash = +[Gmail]/Bin
+set record = "+[Gmail]/Sent Mail"
+
+macro index o "<shell-escape>tmux split-window -dl 25% 'mailsync ai.farzat@gmail.com'<enter>" "run mbsync to sync ai.farzat@gmail.com"
+
+mailboxes `mdir="$MAILDIR/ai.farzat@gmail.com/"; find "$mdir" -mindepth 1 -type d -name cur | sed -e 's:/cur$:":' -e "s:$mdir:\"=:" | sort | tr '\n' ' '`
+
+macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
+macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
+macro index,pager Ci ";<copy-message>=INBOX<enter>" "copy mail to inbox"
+macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "go to drafts"
+macro index,pager Md ";<save-message>=[Gmail]/Drafts<enter>" "move mail to drafts"
+macro index,pager Cd ";<copy-message>=[Gmail]/Drafts<enter>" "copy mail to drafts"
+macro index,pager gj "<change-folder>=[Gmail]/Spam<enter>" "go to junk"
+macro index,pager Mj ";<save-message>=[Gmail]/Spam<enter>" "move mail to junk"
+macro index,pager Cj ";<copy-message>=[Gmail]/Spam<enter>" "copy mail to junk"
+macro index,pager gt "<change-folder>=[Gmail]/Bin<enter>" "go to trash"
+macro index,pager Mt ";<save-message>=[Gmail]/Bin<enter>" "move mail to trash"
+macro index,pager Ct ";<copy-message>=[Gmail]/Bin<enter>" "copy mail to trash"
+macro index,pager gs "<change-folder>=[Gmail]/Sent Mail<enter>" "go to sent"
+macro index,pager Ms ";<save-message>=[Gmail]/Sent Mail<enter>" "move mail to sent"
+macro index,pager Cs ";<copy-message>=[Gmail]/Sent Mail<enter>" "copy mail to sent"
+macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
+macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
+macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
