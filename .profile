@@ -1,20 +1,21 @@
 #!/usr/bin/env sh
 
-# Custom ENV variable - the home of the dotfiles.
-export DOTFILESDIR="$HOME/.dotfiles"
+# Set XDG_CONFIG_HOME.
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 
 # set PATH so it includes user's private bin if it exists.
-[ -d "$DOTFILESDIR/bin" ] && PATH="$(find -H "$DOTFILESDIR/bin" -maxdepth 1 -type d -printf %p:)$PATH"
 [ -d "$HOME/.local/bin" ] && PATH="$(find -H "$HOME/.local/bin" -maxdepth 1 -type d -printf %p:)$PATH"
 [ -d "$HOME/bin" ] && PATH="$(find -H "$HOME/bin" -maxdepth 1 -type d -printf %p:)$PATH"
 
-# Read zshrc from there.
-export ZDOTDIR="$DOTFILESDIR/zsh"
+# Declare that this is my machine with all configs
+export AFARZATMACHINE=FULL
 
-# Set XDG_CONFIG_HOME.
-export XDG_CONFIG_HOME="$DOTFILESDIR/config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
+# Read zshrc from there.
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Some default programs.
 export VISIUAL="nvim"
@@ -48,14 +49,9 @@ export GOPATH="$HOME/.local/share/go"
 export GOBIN="$HOME/.local/bin/go"
 # Node.
 export NVM_DIR="${XDG_DATA_HOME}/nvm"
-# Mbsync.
-export MBSYNCRC="${XDG_CONFIG_HOME}/mbsync/config"
 # GnuPG.
 export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
 # Pass.
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME}/password-store"
 # Gnu Info.
 # export INFOPATH="$XDG_DATA_HOME/info:$INFOPATH"
-
-# Also source private profile.
-[ -f "$DOTFILESDIR/general/profile.private" ] && . "$DOTFILESDIR/general/profile.private"
