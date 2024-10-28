@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+# A script to run a command in a tmux session of choice.
+# The first argument is the session name. If empty the user uses dmenu to choose.
+# If the session is already attached, the window is activated.
+# Else a new terminal is opened attaching the session.
+
+# The default terminal is st.
+TERMINAL="${TERMINAL:-st}"
+
+# If the first argument is empty use dmenu to obtain a session name.
+if [ -n "$1" ]; then chosen="$1"
+else chosen="$(tmux ls -F '#{session_name}' | dmenu -p "Choose which tmux session to use")"
+fi
+
+# If no session was chosen then exit, else remove session_name from arg list.
+if [ -z "$chosen" ]; then exit; fi
+shift
+
+# If the session doesn't exist yet, create it running the provided program.
+if ! tmux has-session -t "$chosen" 2> /dev/null
+then exec $TERMINAL -T "tmux: $chosen" zshrc tmux new -s "$chosen" -- "$@"
+fi
+
+# As the session exists, create a new window to run the program.
+tmux neww -t "$chosen": -- "$@"
+# Obtain the pid of the client running the target session. If it exists activate the window.
+# Else attach the session to a new terminal.
+client_pid="$(tmux lsc -F '#{session_name}:#{client_pid}' | session="$chosen" awk -F : '{ if ($1 == ENVIRON["session"]) print $2 }')"
+if [ -n "$client_pid" ]
+then xdotool windowactivate "$(xdotool search --pid "$(ps -o ppid= "$client_pid")")"
+else exec $TERMINAL -T "tmux: $chosen" zshrc tmux attach -t "$chosen"
+fi
