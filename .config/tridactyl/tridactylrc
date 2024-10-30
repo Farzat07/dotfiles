@@ -1,0 +1,19 @@
+" General Settings
+set editorcmd tridactyl_edit %f %l %c
+set theme dark
+set searchurls.searx_redirect https://search.libredirect.invalid/?q=%s
+set searchengine searx_redirect
+
+" Binds
+bind --mode=insert <C-i> editor_rm
+bind ;gl hint -qW linkhandlersafe
+
+" Aliases
+alias editor_rm composite editor | jsb -p tri.native.run(`rm -f '${JS_ARG[0]}'`)
+alias linkhandlersafe js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('linkhandler ' + url))
+
+" Save using :mkt <filename>
+" Load using :source
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
