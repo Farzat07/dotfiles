@@ -19,6 +19,8 @@ https://addons.mozilla.org/en-US/firefox/addon/send-to-mpv-player/
 https://addons.mozilla.org/en-US/firefox/addon/simple-tab-groups/
 https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/
 https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/
+https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/
 https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
+https://addons.mozilla.org/en-US/firefox/addon/ultimadark/
 https://addons.mozilla.org/en-US/firefox/addon/video-downloadhelper/
 https://addons.mozilla.org/en-US/firefox/addon/window-titler/
