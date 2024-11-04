@@ -1,0 +1,19 @@
+### Zsh ###
+# Zsh compiled script + zrecompile backup
+*.zwc
+*.zwc.old
+
+# Zsh completion-optimization dumpfile
+*zcompdump*
+
+# Zsh zcalc history
+.zcalc_history
+
+# zdharma/zshelldoc tool's files
+zsdoc/data
+
+# My private per device config
+*.private.zsh
+
+# Zsh history
+/.zsh_history
