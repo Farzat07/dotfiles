@@ -1,0 +1,15 @@
+// Copied from https://github.com/nvim-tree/nvim-tree.lua/blob/master/.luarc.json
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "runtime.version": "LuaJIT",
+  "workspace": {
+    "library": [
+      "$VIMRUNTIME/lua/vim",
+      "${3rd}/luv/library"
+    ]
+  },
+  "diagnostics": {
+    "libraryFiles": "Disable",
+    "globals": []
+  }
+}
