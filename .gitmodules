@@ -1,3 +1,0 @@
-[submodule ".config/mpv/scripts/mpv-reload"]
-	path = .config/mpv/script-repos/mpv-reload
-	url = https://github.com/4e6/mpv-reload.git
