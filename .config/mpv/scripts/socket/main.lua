@@ -10,7 +10,7 @@ mp.command_native({capture_stdout = true, capture_stderr = true,
 args = {"mkdir", "-p", sock_dir}, name = "subprocess", playback_only = false})
 
 local sock_file = utils.join_path(sock_dir,
-mp.get_opt("mpv_socket") or utils.getpid())
+mp.get_opt("socket") or utils.getpid())
 
 mp.set_property("options/input-ipc-server", sock_file)
 

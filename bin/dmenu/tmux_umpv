@@ -15,5 +15,5 @@ if printf '{ "command": ["get_property", "path"] }\n' | nc -NU "$sock_dir/$sock"
     jq -cn --arg l "$link" '{"command":["loadfile",($l),"append"]},{"command":["print-text","LOADFILE:= "+($l)]}'
   done | nc -NU "$sock_dir/$sock" >/dev/null
 else
-  tmux neww -t mpv: mpv --volume=50 --script-opts=mpv_socket="$sock",print_filenames=yes "$@"
+  tmux neww -t mpv: mpv --volume=50 --script-opts=socket="$sock",print_filenames=yes "$@"
 fi
