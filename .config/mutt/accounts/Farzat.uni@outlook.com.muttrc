@@ -12,7 +12,6 @@ source "$XDG_CONFIG_HOME/mutt/switch.muttrc"
 set spoolfile = +INBOX
 set postponed = +Drafts
 set trash = +Deleted
-set record = +Sent
 
 macro index o "<shell-escape>tmux split-window -dl 25% 'mailsync Farzat.uni@outlook.com'<enter>" "run mbsync to sync Farzat.uni@outlook.com"
 
