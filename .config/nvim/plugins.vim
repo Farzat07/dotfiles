@@ -20,7 +20,7 @@ Plug 'https://github.com/lukas-reineke/indent-blankline.nvim' " Indent guides fo
 Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim' " Rainbow delimiters for Neovim with Tree-sitter.
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Nvim Treesitter configurations and abstraction layer.
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter-context' " Show code context.
-Plug 'https://github.com/jose-elias-alvarez/null-ls.nvim' " Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
+Plug 'https://github.com/nvimtools/none-ls.nvim' " Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
 Plug 'https://github.com/Vimjas/vim-python-pep8-indent' " A nicer Python indentation style for vim.
 Plug 'https://github.com/vim-airline/vim-airline' " Lean & mean status/tabline for vim that's light as air.
 Plug 'https://github.com/vim-airline/vim-airline-themes' " A collection of themes for vim-airline.

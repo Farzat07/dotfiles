@@ -1,5 +1,3 @@
-local lspconfig = require("lspconfig")
-
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
@@ -52,10 +50,10 @@ local simple_servers = {
   "yamlls",
 }
 for _, lsp in ipairs(simple_servers) do
-  lspconfig[lsp].setup({ capabilities = capabilities, on_attach = on_attach })
+  vim.lsp.config(lsp, { capabilities = capabilities, on_attach = on_attach })
 end
 
-require("lspconfig").lua_ls.setup({
+vim.lsp.config("lua_ls", {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
