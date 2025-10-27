@@ -51,6 +51,7 @@ local simple_servers = {
 }
 for _, lsp in ipairs(simple_servers) do
   vim.lsp.config(lsp, { capabilities = capabilities, on_attach = on_attach })
+  vim.lsp.enable(lsp)
 end
 
 vim.lsp.config("lua_ls", {
@@ -90,3 +91,4 @@ vim.lsp.config("lua_ls", {
     Lua = {},
   },
 })
+vim.lsp.enable("lua_ls")
