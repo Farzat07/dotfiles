@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+# Usage:
+# pgrep <command> | xargs find_tmux_pane
+# Or if you already have the pids:
+# find_tmux_pane <pid1> <pid2> ...
+
+server_pid="$(tmux ls -F '#{pid}' | head -n 1)"
+pane_list="$(tmux lsp -aF '#{session_name}:#{window_index}.#{pane_index}	#{pane_pid}')"
+
+get_pane_pid() {
+	current_pid="$pid"
+	if ! parent_pid="$(printf %d "$(ps -p "$current_pid" -o ppid=)")"
+	then return $?
+	fi
+	while [ "$parent_pid" != "$server_pid" ]
+	do
+		current_pid="$parent_pid"
+		parent_pid="$(printf %d "$(ps -p "$current_pid" -o ppid=)")"
+		if [ "$parent_pid" = 0 ]
+		then printf "%s is not a tmux process\n" "$pid" >&2; return 1
+		fi
+	done
+	printf %d "$current_pid"
+	return 0
+}
+
+get_pane_name() {
+	while IFS= read -r line
+	do
+		if [ "${line#*	}" = "$1" ]
+		then printf %s "${line%	*}"
+		fi
+	done <<-PANE_PID
+	$pane_list
+	PANE_PID
+}
+
+for pid in "$@"
+do
+	if pane_pid="$(get_pane_pid "$pid")"
+	then printf "%d\t%s\n" "$pid" "$(get_pane_name "$pane_pid")"
+	fi
+done
