@@ -9,7 +9,7 @@ set number
 set relativenumber
 
 " Use the wal colorscheme from the plugin if available.
-colorscheme wal
+colorscheme industry
 
 " Add a red column after textwidth limit.
 set colorcolumn=+1
