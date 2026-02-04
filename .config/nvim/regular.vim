@@ -38,10 +38,6 @@ set noarabicshape
 set keymap=arabic
 set iminsert=0
 
-" Folding based on treesitter
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-
 " Disable mouse.
 set mouse=
 
