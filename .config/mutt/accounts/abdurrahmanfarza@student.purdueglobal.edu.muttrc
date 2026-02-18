@@ -11,7 +11,7 @@ set mbox_type = Maildir
 source "$XDG_CONFIG_HOME/mutt/switch.muttrc"
 set spoolfile = +INBOX
 set postponed = +[Gmail]/Drafts
-set trash = +[Gmail]/Bin
+set trash = +[Gmail]/Trash
 set record = "+[Gmail]/Sent Mail"
 
 macro index o "<shell-escape>tmux split-window -dl 25% 'mailsync abdurrahmanfarza@student.purdueglobal.edu'<enter>" "run mbsync to sync abdurrahmanfarza@student.purdueglobal.edu"
@@ -27,9 +27,9 @@ macro index,pager Cd ";<copy-message>=[Gmail]/Drafts<enter>" "copy mail to draft
 macro index,pager gj "<change-folder>=[Gmail]/Spam<enter>" "go to junk"
 macro index,pager Mj ";<save-message>=[Gmail]/Spam<enter>" "move mail to junk"
 macro index,pager Cj ";<copy-message>=[Gmail]/Spam<enter>" "copy mail to junk"
-macro index,pager gt "<change-folder>=[Gmail]/Bin<enter>" "go to trash"
-macro index,pager Mt ";<save-message>=[Gmail]/Bin<enter>" "move mail to trash"
-macro index,pager Ct ";<copy-message>=[Gmail]/Bin<enter>" "copy mail to trash"
+macro index,pager gt "<change-folder>=[Gmail]/Trash<enter>" "go to trash"
+macro index,pager Mt ";<save-message>=[Gmail]/Trash<enter>" "move mail to trash"
+macro index,pager Ct ";<copy-message>=[Gmail]/Trash<enter>" "copy mail to trash"
 macro index,pager gs "<change-folder>=[Gmail]/Sent Mail<enter>" "go to sent"
 macro index,pager Ms ";<save-message>=[Gmail]/Sent Mail<enter>" "move mail to sent"
 macro index,pager Cs ";<copy-message>=[Gmail]/Sent Mail<enter>" "copy mail to sent"
